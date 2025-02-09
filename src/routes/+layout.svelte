@@ -14,7 +14,7 @@
 
 <div id="titlebar" class="text-white p-4 flex flex-row items-center">
     <h1 class="text-3xl">Goodstuff</h1>
-    <div class="flex-grow"></div>
+    <div class="grow"></div>
     <div class="flex flex-row gap-4">
         {#if isLoggedIn()}
             <UserMenu/>
