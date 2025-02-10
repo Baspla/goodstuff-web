@@ -1,3 +1,3 @@
 <a href="/logout">
-    <button>Logout</button>
+	<button>Logout</button>
 </a>
