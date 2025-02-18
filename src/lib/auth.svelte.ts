@@ -2,7 +2,7 @@ export let auth: { jwtToken: string | null; currentUser: User | null } = $state(
 	jwtToken: localStorage.getItem("jwtToken"),
 	currentUser: localStorage.getItem("currentUser")
 		? JSON.parse(localStorage.getItem("currentUser") as string)
-		: ull
+		: null
 });
 
 type User = {
