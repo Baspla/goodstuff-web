@@ -1,17 +1,18 @@
 <script lang="ts">
 	import { page } from "$app/state";
 	import { fetchApi } from "$lib/fetch";
-	import RecommendationPreview from "$lib/components/RecommendationPreview.svelte";
+	import RecommendationDetails from "$lib/components/RecommendationDetails.svelte";
+	import { getPlausibleProps, plausible } from "$lib/plausible";
 
-	let id = page.url.searchParams.get("id");
-	let promise: Promise<any> = $state(fetchApi(`recommendations/${id}`));
+	let id = $derived(page.url.searchParams.get("id"));
+	let promise: Promise<any> = $derived(fetchApi(`recommendations/${id}`));
+	plausible("recommendation-view", { props: { recommendation_id: id, ...getPlausibleProps() } });
 </script>
 
-<h1 class="text-2xl">Post</h1>
 {#await promise}
-	<p>Loading</p>
+	<RecommendationDetails recommendation={null} />
 {:then response}
-	<RecommendationPreview recommendation={response.recommendation} />
+	<RecommendationDetails recommendation={response.recommendation} />
 {:catch error}
 	<p>Error loading post</p>
 	<p>{error}</p>

@@ -2,8 +2,10 @@
 	import Overlay from "$lib/components/overlays/Overlay.svelte";
 	import SearchCategory from "$lib/components/overlays/search/SearchCategory.svelte";
 	import { fetchApi } from "$lib/fetch";
+	import { isLoggedIn } from "$lib/auth.svelte";
+	import { getPlausibleProps, plausible } from "$lib/plausible";
+	import { createRecommendationState, outgoingLinkState, searchState } from "$lib/overlays.svelte";
 
-	let { visible = $bindable() } = $props();
 	let searchterm = $state("");
 	let recommendationEntries: { title: string; url: string }[] = $state([]);
 	let reviewEntries: { title: string; url: string }[] = $state([]);
@@ -13,18 +15,26 @@
 	let moreReviews: boolean = $state(false);
 	let moreTags: boolean = $state(false);
 	let moreUsers: boolean = $state(false);
+	let isLoggedin = $derived(isLoggedIn());
 
 	const limit = 5;
 
 	function keyhandler(event: KeyboardEvent) {
-		if (event.key === "f" && event.ctrlKey) {
-			visible = !visible;
+		if (event.key === "k" && event.ctrlKey) {
+			if (isLoggedin) {
+				if (!outgoingLinkState.visible && !createRecommendationState.visible) {
+					searchState.visible = !searchState.visible;
+					if (searchState.visible) {
+						plausible("search-shortcut", { props: getPlausibleProps() });
+					}
+				}
+			}
 			event.preventDefault();
 		}
 	}
 
 	$effect(() => {
-		if (visible) {
+		if (searchState.visible) {
 			if (searchterm.length > 0) {
 				fetchApi(`search`, { searchterm, limit: "" + limit }).then((response) => {
 					let newRecommendationEntries = [];
@@ -78,7 +88,7 @@
 	let searchbar: HTMLInputElement;
 
 	$effect(() => {
-		if (visible) {
+		if (searchState.visible) {
 			searchbar.focus();
 			searchbar.setSelectionRange(0, searchbar.value.length);
 		}
@@ -94,15 +104,15 @@
 
 <svelte:document onkeydown={keyhandler} />
 
-<Overlay bind:visible>
+<Overlay bind:visible={searchState.visible}>
 	<div
-		class="absolute left-1/2 h-full w-[90vw] max-w-[750px] -translate-x-1/2 transform rounded-lg px-8"
+		class="absolute left-1/2 w-[90vw] mt-[15vh] py-[10vh] max-w-[750px] -translate-x-1/2 transform rounded-lg px-8 pointer-events-auto"
 	>
-		<div class="mt-[25vh] flex max-h-[70vh] flex-col">
+		<div class="flex max-h-[75vh] flex-col ">
 			<input
 				bind:this={searchbar}
 				bind:value={searchterm}
-				class="h-[42px] w-full resize-none rounded-lg border border-neutral-800 bg-neutral-900 px-4 py-2 focus:border-neutral-700 focus:ring-neutral-700"
+				class="h-[42px] w-full resize-none rounded-lg border dark:border-neutral-800 bg-neutral-100 border-neutral-200 dark:bg-neutral-900 px-4 py-2 dark:focus:border-neutral-700 dark:focus:ring-neutral-700 focus:border-neutral-500 focus:ring-neutral-500"
 				placeholder="Suche"
 				onkeydown={redirectToSearch}
 			/>

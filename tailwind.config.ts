@@ -5,9 +5,7 @@ import type { Config } from "tailwindcss";
 export default {
 	content: ["./src/**/*.{html,js,svelte,ts}", "./lib/**/*.{svelte,js,ts,jsx,tsx}"],
 
-	theme: {
-		extend: {}
-	},
+	theme: {},
 
 	plugins: [typography, forms]
 } satisfies Config;

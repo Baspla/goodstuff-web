@@ -1,7 +1,22 @@
-export let auth: { jwtToken: string | null; currentUserId: number | null } = $state({
+export let auth: { jwtToken: string | null; currentUser: User | null } = $state({
 	jwtToken: localStorage.getItem("jwtToken"),
-	currentUserId: null
+	currentUser: localStorage.getItem("currentUser")
+		? JSON.parse(localStorage.getItem("currentUser") as string)
+		: ull
 });
+
+type User = {
+	jwtToken: string | null;
+	avatarUrl: string | null;
+	createdAt: string;
+	discordId: string;
+	email: string;
+	id: number;
+	lastLogin: string;
+	role: string;
+	username: string;
+};
+
 let loggedIn = $derived(!!auth.jwtToken);
 
 if (auth.jwtToken) {
@@ -26,10 +41,15 @@ export function isLoggedIn() {
 	return loggedIn;
 }
 
-export function setCurrentUserId(userId: number) {
-	auth.currentUserId = userId;
+export function setCurrentUser(user: any) {
+	auth.currentUser = user;
+	localStorage.setItem("currentUser", JSON.stringify(user));
 }
 
-export function getCurrentUserId() {
-	return auth.currentUserId;
+export function getCurrentUser() {
+	return auth.currentUser;
+}
+
+export function getCurrentUserRole() {
+	return auth.currentUser?.role;
 }

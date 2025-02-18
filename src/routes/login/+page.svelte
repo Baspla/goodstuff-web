@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { page } from "$app/state";
 	import DiscordLoginButton from "$lib/components/DiscordLoginButton.svelte";
+	import { isLoggedIn } from "$lib/auth.svelte";
+	import { goto } from "$app/navigation";
 
 	let stateParam = page.url.searchParams.get("state");
 
@@ -19,6 +21,15 @@
             window.location.assign(env.API_BASE + "/v1/auth/discord/web")
         }
     }*/
+
+	// if already logged in, redirect to home
+	if (isLoggedIn()) {
+		if (stateParam) {
+			goto(stateParam, { replaceState: true });
+		} else {
+			goto("/", { replaceState: true });
+		}
+	}
 </script>
 
 <div class="flex flex-row justify-center">

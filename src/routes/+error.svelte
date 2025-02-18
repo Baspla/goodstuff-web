@@ -1,5 +1,11 @@
 <script lang="ts">
 	import { page } from "$app/state";
+	import { getPlausibleProps, plausible } from "$lib/plausible";
+	import { onMount } from "svelte";
+
+	onMount(() => {
+		plausible("404", { props: { path: document.location.pathname, ...getPlausibleProps() } });
+	});
 </script>
 
 <div class="m-3">

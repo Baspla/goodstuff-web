@@ -1,5 +1,31 @@
-export function protectUrl(url: any) {
-	return `/link?to=${url}`;
+export function getHashColor(str: string) {
+	const hash = generateHash(str);
+	const colors = [
+		"#bf6060", // Reddish
+		"#bf7860", // Warm Orange
+		"#bf9060", // Earthy Yellow
+		"#bfa560", // Muted Gold
+		"#bfb460", // Olive Yellow
+		"#a5bf60", // Muted Green-Yellow
+		"#86bf60", // Olive Green
+		"#60bf60", // Soft Green
+		"#60bf86", // Teal Green
+		"#60bfa5", // Muted Teal
+		"#60bfb4", // Soft Cyan
+		"#60a5bf", // Cool Cyan
+		"#6086bf", // Dusty Blue
+		"#606cbf", // Muted Indigo
+		"#605cbf", // Deep Periwinkle
+		"#7860bf", // Soft Purple
+		"#905fbf", // Muted Violet
+		"#a560bf", // Warm Lavender
+		"#b460bf", // Dusty Pinkish Purple
+		"#bf60a5", // Deep Mauve
+		"#bf6086", // Muted Rose
+		"#bf6078" // Dusky Pink
+	];
+
+	return "background:" + colors[hash % colors.length];
 }
 
 export function getHashGradient(str: string) {
@@ -68,13 +94,9 @@ export function getHashGradientTW(str: string) {
 	return output;
 }
 
-function generateHash(input: string): number {
-	let hash = 0;
-	input = input + "_pad_" + input;
-	for (let i = 0; i < input.length; i++) {
-		const char = input.charCodeAt(i);
-		hash = (hash << 5) - hash + char;
-		hash = hash & hash;
-	}
-	return Math.abs(hash);
+function generateHash(input: string) {
+	const num = Number(input) + 21;
+	const prime = 2654435761;
+	let hash = (num * prime) ^ (num >> 16);
+	return Math.abs(hash % 10000) + 1;
 }

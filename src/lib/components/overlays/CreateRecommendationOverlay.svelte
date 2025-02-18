@@ -1,8 +1,7 @@
 <script>
 	import Overlay from "$lib/components/overlays/Overlay.svelte";
 	import { fetchApi, postApi } from "$lib/fetch";
-
-	let { visible = $bindable() } = $props();
+	import { createRecommendationState } from "$lib/overlays.svelte";
 
 	let title = $state("");
 	let url = $state("");
@@ -16,6 +15,8 @@
 			return;
 		}
 
+		console.log("Posting recommendation", title, url, image, tags, tldr);
+
 		postApi("recommendations", {
 			title: title,
 			url: url,
@@ -25,7 +26,7 @@
 		})
 			.then((response) => {
 				console.log(response);
-				visible = false;
+				createRecommendationState.visible = false;
 			})
 			.catch((error) => {
 				alert("Fehler beim Erstellen der Empfehlung: " + error);
@@ -38,31 +39,33 @@
 			if (title === "") title = response.preview?.title;
 			if (image === "") image = response.preview?.imageUrl;
 			if (tldr === "") tldr = response.preview?.description;
+		}).catch((error) => {
+			alert("Fehler beim Laden der Website-Daten: " + error);
 		});
 	}
 </script>
 
-<Overlay bind:visible>
+<Overlay bind:visible={createRecommendationState.visible}>
 	<div
 		class="absolute left-1/2 h-full w-[90vw] max-w-[1000px] -translate-x-1/2 transform rounded-lg"
 	>
 		<div class="mt-[10vh]">
 			<div class="relative">
-				<h1 class="mb-2 text-2xl">Empfehlung erstellen</h1>
+				<h1 class="mb-2 text-2xl text-white">Empfehlung erstellen</h1>
 				<!-- title, tldr, url, image, tags textarea with label -->
 				<div>
 					<label for="url" class="block text-sm font-medium text-neutral-100">Link</label>
-					<div class="mt-1 flex flex-row overflow-hidden rounded-lg border border-neutral-800">
+					<div class="mt-1 flex flex-row rounded-lg border border-neutral-800">
 						<input
 							type="text"
 							id="url"
 							name="url"
-							class="block w-full rounded-s-lg bg-neutral-900 px-4 py-2"
+							class="block w-full rounded-s-lg bg-neutral-100 dark:bg-neutral-900 px-4 py-2"
 							placeholder="https://example.com"
 							bind:value={url}
 						/>
 						<button
-							class="rounded-e-lg bg-neutral-900 px-4 py-2 whitespace-nowrap text-neutral-100"
+							class="rounded-e-lg px-4 py-2 whitespace-nowrap text-black dark:text-neutral-100 cursor-pointer bg-neutral-200 dark:bg-neutral-900"
 							onclick={fetchPageData}
 						>Website-Daten laden
 						</button>
@@ -76,7 +79,7 @@
 								type="text"
 								id="title"
 								name="title"
-								class="mt-1 block w-full rounded-lg border border-neutral-800 bg-neutral-900 px-4 py-2"
+								class="mt-1 block w-full rounded-lg border border-neutral-800 bg-neutral-100 dark:bg-neutral-900 px-4 py-2"
 								placeholder="Ihr werdet nicht glauben was es hier gibt"
 								bind:value={title}
 							/>
@@ -89,7 +92,7 @@
 								type="text"
 								id="image"
 								name="image"
-								class="mt-1 block w-full rounded-lg border border-neutral-800 bg-neutral-900 px-4 py-2"
+								class="mt-1 block w-full rounded-lg border border-neutral-800 bg-neutral-100 dark:bg-neutral-900 px-4 py-2"
 								placeholder="https://example.com/image.jpg"
 								bind:value={image}
 							/>
@@ -99,7 +102,7 @@
 						</div>
 						<div class="relative">
 							<button
-								class="mt-4 rounded-lg bg-neutral-900 px-4 py-2 text-neutral-100"
+								class="mt-4 rounded-lg bg-neutral-200 dark:bg-neutral-900 px-4 py-2 text-black dark:text-neutral-100 cursor-pointer "
 								onclick={handleClick}
 							>
 								Erstellen
@@ -113,7 +116,7 @@
 								type="text"
 								id="tags"
 								name="tags"
-								class="mt-1 block w-full rounded-lg border border-neutral-800 bg-neutral-900 px-4 py-2"
+								class="mt-1 block w-full rounded-lg border border-neutral-800 bg-neutral-100 dark:bg-neutral-900 px-4 py-2"
 								placeholder="Hier kommt noch ein funktionierender Tag-Picker"
 								bind:value={tags}
 							/>
@@ -123,7 +126,7 @@
 							<textarea
 								id="tldr"
 								name="tldr"
-								class="mt-1 block max-h-32 min-h-11 w-full rounded-lg border border-neutral-800 bg-neutral-900 px-4 py-2"
+								class="mt-1 block max-h-32 min-h-11 w-full rounded-lg border border-neutral-800 bg-neutral-100 dark:bg-neutral-900 px-4 py-2"
 								placeholder="Eine knappe Beschreibung"
 								bind:value={tldr}
 							></textarea>

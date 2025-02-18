@@ -18,7 +18,7 @@
 			document.documentElement.clientHeight <=
 			document.documentElement.clientHeight
 		) {
-			loadBlock();
+			await loadBlock();
 		}
 
 		if (document.documentElement.scrollTop! > document.documentElement.clientHeight) {

@@ -1,7 +1,7 @@
 <script lang="ts">
 	// get the token from the URL
 	import { page } from "$app/state";
-	import { setCurrentUserId, setJwtToken } from "$lib/auth.svelte";
+	import { setCurrentUser, setJwtToken } from "$lib/auth.svelte";
 	import { goto } from "$app/navigation";
 	import { fetchApi } from "$lib/fetch";
 
@@ -16,7 +16,7 @@
 		fetchApi("me")
 			.then((response) => {
 				console.log("ME:", response);
-				setCurrentUserId(response.id);
+				setCurrentUser(response);
 				resolveState();
 			})
 			.catch((error) => {
@@ -35,10 +35,10 @@
 		} else {
 			console.log("State found in the URL");
 			if (stateParam.startsWith("/")) {
-				goto(stateParam);
+				goto(stateParam, { replaceState: true });
 			} else {
 				console.log("Invalid state found in the URL");
-				goto("/");
+				goto("/", { replaceState: true });
 			}
 		}
 	}
