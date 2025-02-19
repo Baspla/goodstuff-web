@@ -10,6 +10,7 @@
 	import { env } from "$lib/scripts/env.svelte";
 	import CommandSearch from "$lib/components/modals/CommandSearch/CommandSearch.svelte";
 	import OutgoingLinkWarning from "$lib/components/modals/OutgoingLinkWarning.svelte";
+	import Alerts from "$lib/components/Alerts.svelte";
 
 	let { children }: { children: any } = $props();
 
@@ -34,6 +35,7 @@
 
 <CommandSearch bind:showModal={showSearchModal} />
 <OutgoingLinkWarning />
+<Alerts />
 
 <div id="content"
 		 class="flex min-h-screen flex-col selection:bg-indigo-700 selection:text-white bg-neutral-100 dark:bg-neutral-900">

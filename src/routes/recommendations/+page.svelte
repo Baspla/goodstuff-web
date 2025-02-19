@@ -3,8 +3,6 @@
 	import RecommendationPreview from "$lib/components/RecommendationPreview/RecommendationPreview.svelte";
 	import EndlessScroll from "$lib/components/EndlessScroll.svelte";
 	import { flip } from "svelte/animate";
-	import Select from "$lib/components/Select.svelte";
-	import Option from "$lib/components/Option.svelte";
 	import CreateRecommendation from "$lib/components/modals/CreateRecommendation.svelte";
 
 	/* default values for /recommendations endpoint
@@ -15,9 +13,20 @@
     sortOrder: 'asc' | 'desc' = 'asc'
      */
 
+	let sortBy: "created_at" | "updated_at" | "title" = $state("created_at");
+	let sortOrder: "asc" | "desc" = $state("desc");
+	let searchterm: string = $state("");
+
 	let reachedEnd: boolean = false;
 	let error: boolean = $state(false);
 	const limit: number = 20;
+
+	function changedFilter() {
+		console.log("changed filter");
+		recommendations = [];
+		reachedEnd = false;
+		loadMore();
+	}
 
 	async function loadMore() {
 		if (reachedEnd) {
@@ -29,8 +38,9 @@
 			let response = await fetchApi(`recommendations`, {
 				page: "" + page,
 				limit: "" + limit,
-				sortBy: "created_at",
-				sortOrder: "desc"
+				sortBy: sortBy,
+				sortOrder: sortOrder,
+				searchterm: searchterm
 			});
 			const newRecommendations = response.recommendations.filter(
 				(rec: any) => !recommendations.some((existingRec: any) => existingRec.id === rec.id)
@@ -56,25 +66,17 @@
 <div class="my-4 flex flex-row flex-wrap items-baseline gap-4">
 	<h1 class="text-4xl font-semibold">Empfehlungen</h1>
 	<CreateRecommendation />
-	<div class="grow"></div>
-	<div id="filters">
-		<Select>
-			<Option value="tag-game">Spiel</Option>
-			<Option value="tag-movie">Film</Option>
-			<Option value="tag-book">Buch</Option>
-			<Option value="tag-music">Musik</Option>
-		</Select>
-		<input type="text" placeholder="Suche" />
-		<Select>
-			<Option value="created_at">Erstellt</Option>
-			<Option value="updated_at">Aktualisiert</Option>
-			<Option value="title">Titel</Option>
-		</Select>
-		<Select>
-			<Option value="asc">Aufsteigend</Option>
-			<Option value="desc">Absteigend</Option>
-		</Select>
-	</div>
+	<div class="sm:block hidden grow"></div>
+	<input type="text" placeholder="Suche" class="input grow max-w-lg" bind:value={searchterm} oninput={changedFilter} />
+	<select class="select w-fit" bind:value={sortBy} onchange={changedFilter}>
+		<option value="created_at">Erstellt</option>
+		<option value="updated_at">Aktualisiert</option>
+		<option value="title">Titel</option>
+	</select>
+	<select class="select w-fit" bind:value={sortOrder} onchange={changedFilter}>
+		<option value="asc">Aufsteigend</option>
+		<option value="desc">Absteigend</option>
+	</select>
 </div>
 
 <div class="mb-6 grid grid-cols-1 gap-x-16 gap-y-8 md:grid-cols-2 xl:grid-cols-3">

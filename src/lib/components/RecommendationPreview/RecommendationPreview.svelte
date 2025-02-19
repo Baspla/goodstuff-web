@@ -7,7 +7,6 @@
 	import RecommendationPreviewTagList from "$lib/components/RecommendationPreview/RecommendationPreviewTagList.svelte";
 	import RecommendationPreviewImage from "$lib/components/RecommendationPreview/RecommendationPreviewImage.svelte";
 	import RecommendationPreviewTitle from "$lib/components/RecommendationPreview/RecommendationPreviewTitle.svelte";
-	import { fade } from "svelte/transition";
 
 	let { recommendation } = $props();
 	/*onMount(() => {
@@ -22,8 +21,6 @@
 
 <div
 	class="flex flex-col gap-2 rounded-lg bg-neutral-700/0"
-	in:fade={{ duration: 500 }}
-	out:fade={{ duration: 100 }}
 >
 	<div class="inline-flex items-center justify-between gap-2">
 		<RecommendationPreviewTitle recommendation={recommendation} />
