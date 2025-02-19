@@ -1,8 +1,9 @@
-import { getJwtToken } from "$lib/auth.svelte";
-import { env } from "$lib/env.svelte";
+import { getJwtToken, invalidateLogin } from "$lib/scripts/auth.svelte.js";
+import { env } from "$lib/scripts/env.svelte.js";
 
 function handleResponseErrors(response: Response) {
 	if (response.status === 401) {
+		invalidateLogin();
 		window.location.href = `/login?state=${encodeURIComponent(window.location.pathname + window.location.search)}`;
 		return;
 	}

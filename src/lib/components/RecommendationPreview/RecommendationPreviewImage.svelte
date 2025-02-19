@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getHashGradient } from "$lib/utils";
+	import { getHashGradient } from "$lib/scripts/utils";
 
 	let { recommendation } = $props();
 	let brokenImage = $state("");

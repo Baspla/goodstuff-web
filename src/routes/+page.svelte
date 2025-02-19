@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { isLoggedIn } from "$lib/auth.svelte";
+	import { isLoggedIn } from "$lib/scripts/auth.svelte.js";
 	import { goto } from "$app/navigation";
 
 	if (isLoggedIn()) {
@@ -7,7 +7,7 @@
 	}
 </script>
 
-<div class="flex h-full flex-col items-center justify-center">
+<div class="flex h-full flex-col items-center justify-center mt-[30vh]">
 	<div class="mb-8">
 		<!-- indigo to white gradient for text color (with background stroke clipping) -->
 		<h2

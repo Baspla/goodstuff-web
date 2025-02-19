@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { searchState } from "$lib/overlays.svelte";
+	let { showModal = $bindable() } = $props();
 </script>
 
 <button
 	class="flex flex-row items-center ps-2 pe-4 gap-2 text-sm py-1 cursor-pointer bg-neutral-300 dark:bg-neutral-700 rounded-full text-neutral-500 dark:text-neutral-400"
-	onclick={() => (searchState.visible = true)}>
+	onclick={() => {showModal = true}}>
 	<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
 			 class="size-3">
 		<path stroke-linecap="round" stroke-linejoin="round"

@@ -1,10 +1,10 @@
 <script lang="ts">
 	import Time from "svelte-time";
 	import Avatar from "$lib/components/Avatar.svelte";
-	import { getCurrentUser } from "$lib/auth.svelte";
-	import RecommendationUrl from "$lib/components/RecommendationURL.svelte";
-	import RecommendationDeleteButton from "$lib/components/RecommendationDeleteButton.svelte";
-	import RecommendationEditButton from "$lib/components/RecommendationEditButton.svelte";
+	import { getCurrentUser } from "$lib/scripts/auth.svelte.js";
+	import RecommendationUrl from "$lib/components/Recommendation/RecommendationURL.svelte";
+	import RecommendationDeleteButton from "$lib/components/Recommendation/RecommendationDeleteButton.svelte";
+	import RecommendationEditButton from "$lib/components/Recommendation/RecommendationEditButton.svelte";
 	import Skeleton from "$lib/components/Skeleton.svelte";
 
 	let { recommendation } = $props();

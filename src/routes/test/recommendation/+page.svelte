@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from "$app/state";
-	import { fetchApi } from "$lib/fetch";
+	import { fetchApi } from "$lib/scripts/fetch";
 
 	let id = page.url.searchParams.get("id");
 	let promise: Promise<any> = $state(fetchApi(`recommendations/${id}`));

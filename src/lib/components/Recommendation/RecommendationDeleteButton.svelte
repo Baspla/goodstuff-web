@@ -1,5 +1,5 @@
 <script>
-	import { deleteApi } from "$lib/fetch";
+	import { deleteApi } from "$lib/scripts/fetch.ts";
 
 	let { recommendation } = $props();
 </script>

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { env } from "$lib/env.svelte";
+	import { env } from "$lib/scripts/env.svelte.js";
 
 	let { stateParam } = $props();
 

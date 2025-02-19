@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from "$app/state";
-	import { getPlausibleProps, plausible } from "$lib/plausible";
+	import { getPlausibleProps, plausible } from "$lib/scripts/plausible";
 	import { onMount } from "svelte";
 
 	onMount(() => {

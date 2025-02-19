@@ -1,17 +1,16 @@
 <script lang="ts">
 	import { goto } from "$app/navigation";
-	import { searchState } from "$lib/overlays.svelte";
 
-	let { children, href } = $props();
+	let { dialog, children, href } = $props();
 
 	function handleClick() {
 		if (href) {
-			searchState.visible = false;
+			dialog?.close();
 			goto(href);
 		}
 	}
 </script>
 
-<button class="cursor-pointer"
+<button class="cursor-pointer text-left"
 				onclick={() => handleClick()}
 >{@render children()}</button>

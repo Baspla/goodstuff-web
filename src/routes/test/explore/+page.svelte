@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { fetchApi } from "$lib/fetch";
+	import { fetchApi } from "$lib/scripts/fetch";
 
 	let apiRoute: string = $state("me");
 	let promise: Promise<any> = $state(new Promise(() => {

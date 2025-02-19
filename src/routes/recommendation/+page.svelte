@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { page } from "$app/state";
-	import { fetchApi } from "$lib/fetch";
-	import RecommendationDetails from "$lib/components/RecommendationDetails.svelte";
-	import { getPlausibleProps, plausible } from "$lib/plausible";
+	import { fetchApi } from "$lib/scripts/fetch";
+	import RecommendationDetails from "$lib/components/Recommendation/RecommendationDetails.svelte";
+	import { getPlausibleProps, plausible } from "$lib/scripts/plausible";
 
 	let id = $derived(page.url.searchParams.get("id"));
 	let promise: Promise<any> = $derived(fetchApi(`recommendations/${id}`));

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from "$app/state";
-	import DiscordLoginButton from "$lib/components/DiscordLoginButton.svelte";
-	import { isLoggedIn } from "$lib/auth.svelte";
+	import DiscordLoginButton from "$lib/components/TitleBar/DiscordLoginButton.svelte";
+	import { isLoggedIn } from "$lib/scripts/auth.svelte";
 	import { goto } from "$app/navigation";
 
 	let stateParam = page.url.searchParams.get("state");
@@ -25,8 +25,10 @@
 	// if already logged in, redirect to home
 	if (isLoggedIn()) {
 		if (stateParam) {
+			console.log("Redirecting to provided state", stateParam);
 			goto(stateParam, { replaceState: true });
 		} else {
+			console.log("Redirecting to home");
 			goto("/", { replaceState: true });
 		}
 	}

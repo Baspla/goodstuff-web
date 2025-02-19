@@ -1,10 +1,8 @@
 <script lang="ts">
-	import Overlay from "$lib/components/overlays/Overlay.svelte";
-	import SearchCategory from "$lib/components/overlays/search/SearchCategory.svelte";
-	import { fetchApi } from "$lib/fetch";
-	import { isLoggedIn } from "$lib/auth.svelte";
-	import { getPlausibleProps, plausible } from "$lib/plausible";
-	import { createRecommendationState, outgoingLinkState, searchState } from "$lib/overlays.svelte";
+	import SearchCategory from "$lib/components/modals/CommandSearch/CommandSearchCategory.svelte";
+	import { fetchApi } from "$lib/scripts/fetch";
+	import { isLoggedIn } from "$lib/scripts/auth.svelte.js";
+	import { getPlausibleProps, plausible } from "$lib/scripts/plausible";
 
 	let searchterm = $state("");
 	let recommendationEntries: { title: string; url: string }[] = $state([]);
@@ -22,19 +20,15 @@
 	function keyhandler(event: KeyboardEvent) {
 		if (event.key === "k" && event.ctrlKey) {
 			if (isLoggedin) {
-				if (!outgoingLinkState.visible && !createRecommendationState.visible) {
-					searchState.visible = !searchState.visible;
-					if (searchState.visible) {
-						plausible("search-shortcut", { props: getPlausibleProps() });
-					}
-				}
+				showModal = true;
+				plausible("search-shortcut", { props: getPlausibleProps() });
 			}
 			event.preventDefault();
 		}
 	}
 
 	$effect(() => {
-		if (searchState.visible) {
+		if (showModal) {
 			if (searchterm.length > 0) {
 				fetchApi(`search`, { searchterm, limit: "" + limit }).then((response) => {
 					let newRecommendationEntries = [];
@@ -85,10 +79,13 @@
 		}
 	});
 
+	let { showModal = $bindable() } = $props();
 	let searchbar: HTMLInputElement;
+	let dialog = $state<HTMLDialogElement>();
 
 	$effect(() => {
-		if (searchState.visible) {
+		if (showModal) {
+			dialog?.showModal();
 			searchbar.focus();
 			searchbar.setSelectionRange(0, searchbar.value.length);
 		}
@@ -104,40 +101,64 @@
 
 <svelte:document onkeydown={keyhandler} />
 
-<Overlay bind:visible={searchState.visible}>
+<!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_noninteractive_element_interactions -->
+<dialog
+	bind:this={dialog}
+	class="modal modal-bottom sm:modal-top backdrop:bg-black/70  backdrop:dark:bg-black/90  backdrop:backdrop-blur-lg"
+	onclose={() => (showModal = false)}
+	onclick={(e) => {
+		if (e.target === dialog) dialog.close();
+	}}
+>
 	<div
-		class="absolute left-1/2 w-[90vw] mt-[15vh] py-[10vh] max-w-[750px] -translate-x-1/2 transform rounded-lg px-8 pointer-events-auto"
+		class="modal-box pointer-events-auto mx-auto mt-[10vh] flex max-w-full justify-center bg-transparent shadow-none sm:max-w-[60vw] xl:max-w-[40vw]"
 	>
-		<div class="flex max-h-[75vh] flex-col ">
+		<div class="flex max-h-[75vh] w-full flex-col">
+			<div class="flex sm:hidden flex-col mb-4">
+				{@render results()}
+			</div>
 			<input
 				bind:this={searchbar}
 				bind:value={searchterm}
-				class="h-[42px] w-full resize-none rounded-lg border dark:border-neutral-800 bg-neutral-100 border-neutral-200 dark:bg-neutral-900 px-4 py-2 dark:focus:border-neutral-700 dark:focus:ring-neutral-700 focus:border-neutral-500 focus:ring-neutral-500"
+				class="h-[42px] w-full resize-none rounded-lg border border-neutral-200 bg-neutral-100 px-4 py-2 focus:border-neutral-500 focus:ring-neutral-500 dark:border-neutral-800 dark:bg-neutral-900 dark:focus:border-neutral-700 dark:focus:ring-neutral-700"
 				placeholder="Suche"
 				onkeydown={redirectToSearch}
 			/>
-			<div class="mx-2 mt-4 overflow-y-auto">
-				<SearchCategory
-					category={{ title: "Empfehlungen", url: "/recommendations" }}
-					entries={recommendationEntries}
-					more={moreRecommendations}
-				/>
-				<SearchCategory
-					category={{ title: "Reviews", url: "/reviews" }}
-					entries={reviewEntries}
-					more={moreReviews}
-				/>
-				<SearchCategory
-					category={{ title: "Tags", url: "/tags" }}
-					entries={tagEntries}
-					more={moreTags}
-				/>
-				<SearchCategory
-					category={{ title: "Nutzer", url: "/users" }}
-					entries={userEntries}
-					more={moreUsers}
-				/>
+			<div class="hidden sm:block">
+				{@render results()}
 			</div>
 		</div>
 	</div>
-</Overlay>
+	<form method="dialog" class="modal-backdrop">
+		<button>close</button>
+	</form>
+</dialog>
+
+{#snippet results()}
+	<div class="mx-2 mt-4 overflow-y-auto">
+		<SearchCategory
+			category={{ title: "Empfehlungen", url: "/recommendations" }}
+			entries={recommendationEntries}
+			more={moreRecommendations}
+			dialog={dialog}
+		/>
+		<SearchCategory
+			category={{ title: "Reviews", url: "/reviews" }}
+			entries={reviewEntries}
+			more={moreReviews}
+			dialog={dialog}
+		/>
+		<SearchCategory
+			category={{ title: "Tags", url: "/tags" }}
+			entries={tagEntries}
+			more={moreTags}
+			dialog={dialog}
+		/>
+		<SearchCategory
+			category={{ title: "Nutzer", url: "/users" }}
+			entries={userEntries}
+			more={moreUsers}
+			dialog={dialog}
+		/>
+	</div>
+{/snippet}

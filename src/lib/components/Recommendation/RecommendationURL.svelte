@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { outgoingLinkState } from "$lib/overlays.svelte.js";
+	import { link } from "$lib/scripts/link.svelte";
 
 	let { recommendation } = $props();
 
 	function handleClick() {
 		if (recommendation?.url) {
-			outgoingLinkState.url = recommendation?.url;
+			link.openLink(recommendation.url);
 		}
 	}
 </script>

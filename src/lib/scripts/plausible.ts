@@ -1,4 +1,4 @@
-import { getCurrentUserRole, isLoggedIn } from "$lib/auth.svelte";
+import { getCurrentUserRole, isLoggedIn } from "$lib/scripts/auth.svelte.js";
 
 export const plausible = (...args: any[]) => {
 	if (typeof window !== "undefined") {

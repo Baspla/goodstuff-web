@@ -1,19 +1,23 @@
 <script lang="ts">
 	import "../app.css";
-	import UserMenu from "$lib/components/UserMenu.svelte";
-	import { getCurrentUser, isLoggedIn } from "$lib/auth.svelte";
-	import DiscordLoginButton from "$lib/components/DiscordLoginButton.svelte";
-	import SearchOverlay from "$lib/components/overlays/search/SearchOverlay.svelte";
-	import LogoutButton from "$lib/components/LogoutButton.svelte";
-	import SearchButton from "$lib/components/overlays/search/SearchButton.svelte";
-	import { getPlausibleProps, plausible } from "$lib/plausible";
+	import UserMenu from "$lib/components/TitleBar/UserMenu.svelte";
+	import { getCurrentUser, isLoggedIn } from "$lib/scripts/auth.svelte";
+	import DiscordLoginButton from "$lib/components/TitleBar/DiscordLoginButton.svelte";
+	import LogoutButton from "$lib/components/TitleBar/LogoutButton.svelte";
+	import SearchButton from "$lib/components/modals/CommandSearch/CommandSearchButton.svelte";
+	import { getPlausibleProps, plausible } from "$lib/scripts/plausible";
 	import { page } from "$app/state";
-	import { env } from "$lib/env.svelte";
-	import OutgoingLinkOverlay from "$lib/components/overlays/OutgoingLinkOverlay.svelte";
-	import { createRecommendationState, outgoingLinkState, searchState } from "$lib/overlays.svelte";
-	import CreateRecommendationOverlay from "$lib/components/overlays/CreateRecommendationOverlay.svelte";
+	import { env } from "$lib/scripts/env.svelte";
+	import CommandSearch from "$lib/components/modals/CommandSearch/CommandSearch.svelte";
+	import OutgoingLinkWarning from "$lib/components/modals/OutgoingLinkWarning.svelte";
 
 	let { children }: { children: any } = $props();
+
+	let showSearchModal = $state(false);
+
+	$effect(() => {
+		page.url.pathname && handleRouteChange();
+	});
 
 	function handleRouteChange() {
 		if (page.url.pathname === "/" && isLoggedIn()) {
@@ -22,31 +26,14 @@
 		plausible("pageview", { props: getPlausibleProps() });
 	}
 
-	$effect(() => {
-		page.url.pathname && handleRouteChange();
-	});
-
-	$effect(() => {
-		if (outgoingLinkState.visible || searchState.visible || createRecommendationState.visible) {
-			document.body.style.overflow = "hidden";
-			document.getElementById("content")?.setAttribute("aria-hidden", "true");
-			document.getElementById("content")?.setAttribute("inert", "true");
-		} else {
-			document.body.style.overflow = "auto";
-			// make content visible
-			document.getElementById("content")?.removeAttribute("aria-hidden");
-			document.getElementById("content")?.removeAttribute("inert");
-		}
-	});
 </script>
 
 <svelte:head>
 	<title>Goodstuff</title>
 </svelte:head>
 
-<SearchOverlay />
-<OutgoingLinkOverlay />
-<CreateRecommendationOverlay />
+<CommandSearch bind:showModal={showSearchModal} />
+<OutgoingLinkWarning />
 
 <div id="content"
 		 class="flex min-h-screen flex-col selection:bg-indigo-700 selection:text-white bg-neutral-100 dark:bg-neutral-900">
@@ -62,7 +49,7 @@
 			<div class="grow"></div>
 			<div class="flex items-center justify-between gap-4">
 				{#if isLoggedIn()}
-					<SearchButton />
+					<SearchButton bind:showModal={showSearchModal} />
 					<LogoutButton />
 					<UserMenu user={getCurrentUser()} />
 				{:else if page.url.pathname !== "/login/"}

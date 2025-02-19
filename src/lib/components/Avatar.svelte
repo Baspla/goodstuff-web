@@ -1,5 +1,5 @@
 <script>
-	import { getHashColor } from "$lib/utils";
+	import { getHashColor } from "$lib/scripts/utils";
 
 	let { user, children = null } = $props();
 </script>

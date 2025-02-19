@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { fetchApi } from "$lib/fetch";
+	import { fetchApi } from "$lib/scripts/fetch";
 
 	let promise: Promise<any> = $state(fetchApi(``));
 </script>

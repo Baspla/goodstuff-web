@@ -1,9 +1,9 @@
 <script lang="ts">
 	// get the token from the URL
 	import { page } from "$app/state";
-	import { setCurrentUser, setJwtToken } from "$lib/auth.svelte";
+	import { setCurrentUser, setJwtToken } from "$lib/scripts/auth.svelte.js";
 	import { goto } from "$app/navigation";
-	import { fetchApi } from "$lib/fetch";
+	import { fetchApi } from "$lib/scripts/fetch";
 
 	let tokenParam = page.url.searchParams.get("token");
 	let stateParam = page.url.searchParams.get("state");

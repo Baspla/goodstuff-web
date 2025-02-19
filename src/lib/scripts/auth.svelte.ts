@@ -41,6 +41,13 @@ export function isLoggedIn() {
 	return loggedIn;
 }
 
+export function invalidateLogin() {
+	console.log("Invalidating login");
+	clearJwtToken();
+	auth.currentUser = null;
+	localStorage.removeItem("currentUser");
+}
+
 export function setCurrentUser(user: any) {
 	auth.currentUser = user;
 	localStorage.setItem("currentUser", JSON.stringify(user));

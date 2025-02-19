@@ -3,7 +3,7 @@
 	import Avatar from "$lib/components/Avatar.svelte";
 	import RecommendationPreviewReviewsButton
 		from "$lib/components/RecommendationPreview/RecommendationPreviewReviewsButton.svelte";
-	import RecommendationUrl from "$lib/components/RecommendationURL.svelte";
+	import RecommendationUrl from "$lib/components/Recommendation/RecommendationURL.svelte";
 	import RecommendationPreviewTagList from "$lib/components/RecommendationPreview/RecommendationPreviewTagList.svelte";
 	import RecommendationPreviewImage from "$lib/components/RecommendationPreview/RecommendationPreviewImage.svelte";
 	import RecommendationPreviewTitle from "$lib/components/RecommendationPreview/RecommendationPreviewTitle.svelte";

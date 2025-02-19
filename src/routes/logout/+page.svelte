@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { clearJwtToken } from "$lib/auth.svelte";
+	import { clearJwtToken } from "$lib/scripts/auth.svelte.js";
 	import { goto } from "$app/navigation";
 
 	clearJwtToken();

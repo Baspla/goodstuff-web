@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getHashColor } from "$lib/utils";
+	import { getHashColor } from "$lib/scripts/utils";
 
 	let { recommendation } = $props();
 </script>

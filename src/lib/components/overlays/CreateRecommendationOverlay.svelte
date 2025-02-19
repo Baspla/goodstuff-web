@@ -1,7 +1,7 @@
-<script>
+<!--<script>
 	import Overlay from "$lib/components/overlays/Overlay.svelte";
-	import { fetchApi, postApi } from "$lib/fetch";
-	import { createRecommendationState } from "$lib/overlays.svelte";
+	import { fetchApi, postApi } from "$lib/scripts/fetch";
+	import { createRecommendationState } from "$lib/scripts/overlays.svelte";
 
 	let title = $state("");
 	let url = $state("");
@@ -52,7 +52,6 @@
 		<div class="mt-[10vh]">
 			<div class="relative">
 				<h1 class="mb-2 text-2xl text-white">Empfehlung erstellen</h1>
-				<!-- title, tldr, url, image, tags textarea with label -->
 				<div>
 					<label for="url" class="block text-sm font-medium text-neutral-100">Link</label>
 					<div class="mt-1 flex flex-row rounded-lg border border-neutral-800">
@@ -136,4 +135,4 @@
 			</div>
 		</div>
 	</div>
-</Overlay>
+</Overlay>-->
