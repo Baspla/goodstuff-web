@@ -139,25 +139,25 @@
 		<SearchCategory
 			category={{ title: "Empfehlungen", url: "/recommendations" }}
 			entries={recommendationEntries}
-			more={moreRecommendations}
+			more={moreRecommendations? "/recommendations?search=" + searchterm : ""}
 			dialog={dialog}
 		/>
 		<SearchCategory
 			category={{ title: "Reviews", url: "/reviews" }}
 			entries={reviewEntries}
-			more={moreReviews}
+			more={moreReviews? "/reviews?search=" + searchterm : ""}
 			dialog={dialog}
 		/>
 		<SearchCategory
 			category={{ title: "Tags", url: "/tags" }}
 			entries={tagEntries}
-			more={moreTags}
+			more={moreTags? "/tags?search=" + searchterm : ""}
 			dialog={dialog}
 		/>
 		<SearchCategory
 			category={{ title: "Nutzer", url: "/users" }}
 			entries={userEntries}
-			more={moreUsers}
+			more={moreUsers? "/users?search=" + searchterm : ""}
 			dialog={dialog}
 		/>
 	</div>

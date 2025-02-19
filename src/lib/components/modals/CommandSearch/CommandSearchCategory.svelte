@@ -9,7 +9,7 @@
 	}: {
 		category: { title: string; url: string };
 		entries: { title: string; url: string }[];
-		more: boolean;
+		more: string;
 		dialog?: HTMLDialogElement;
 	} = $props();
 </script>
@@ -26,7 +26,7 @@
 		{/each}
 		{#if more}
 			<span class="text-neutral-300 drop-shadow-xl shadow-black dark:text-neutral-400">
-				<SearchLink dialog={dialog} href={category.url}>Weitere Ergebnisse ...</SearchLink>
+				<SearchLink dialog={dialog} href={more}>Weitere Ergebnisse ...</SearchLink>
 			</span>
 		{/if}
 	</div>
