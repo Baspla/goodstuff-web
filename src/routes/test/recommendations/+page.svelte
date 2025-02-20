@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { fetchApi } from "$lib/scripts/fetch";
 
-	let promise: Promise<any> = $state(fetchApi(`recommendations`));
+	let promise: Promise<any> = $state(fetchApi(`finds`));
 </script>
 
 <h1 class="text-2xl">Liste aller Posts</h1>
@@ -9,13 +9,13 @@
 {#await promise}
 	<p>Loading</p>
 {:then response}
-	{#each response?.recommendations as recommendation}
+	{#each response?.finds as find}
 		<div class="ms-4 mb-4">
-			<h1>{recommendation?.title}</h1>
-			<p>{recommendation?.createdAt}</p>
-			<p>{recommendation?.tldr}</p>
-			<a href={recommendation?.url}>{recommendation?.url}</a>
-			<p>Von: {recommendation?.user?.username}</p>
+			<h1>{find?.title}</h1>
+			<p>{find?.createdAt}</p>
+			<p>{find?.tldr}</p>
+			<a href={find?.url}>{find?.url}</a>
+			<p>Von: {find?.user?.username}</p>
 		</div>
 	{/each}
 {:catch error}

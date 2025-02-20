@@ -22,9 +22,9 @@
 			return;
 		}
 
-		console.log("Posting recommendation", title, url, image, tags, tldr);
+		console.log("Posting find", title, url, image, tags, tldr);
 
-		postApi("recommendations", {
+		postApi("finds", {
 			title: title,
 			url: url,
 			imageUrl: image,
@@ -60,7 +60,7 @@
 	class="cursor-pointer rounded-md bg-neutral-300 px-2 py-1 dark:bg-neutral-700"
 	onclick={() => (showModal = true)}
 >
-	Neue Empfehlung erstellen
+	Neuen Fund teilen
 </button>
 <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_noninteractive_element_interactions -->
 <dialog
@@ -72,7 +72,7 @@
 	}}
 >
 	<div class="modal-box sm:max-w-full sm:w-5/6 flex gap-2 flex-col">
-		<h2 class="text-2xl font-semibold mb-2">Neue Empfehlung erstellen</h2>
+		<h2 class="text-2xl font-semibold mb-2">Neuen Fund teilen</h2>
 		<div>
 			<label for="title" class="block text-sm font-medium text-neutral-100">Titel</label>
 			<input

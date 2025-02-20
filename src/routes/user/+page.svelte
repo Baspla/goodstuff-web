@@ -29,11 +29,11 @@
 		</div>
 		<div class="stats stats-vertical lg:stats-horizontal">
 			<div class="stat">
-				<div class="stat-title">Empfehlungen</div>
-				<div class="stat-value">{response.user.recommendationsCount}</div>
+				<div class="stat-title">Funde</div>
+				<div class="stat-value">{response.user.findsCount}</div>
 				<div
-					class="stat-desc">{response.stats.recommendationsCount === 0 ? 0 : Math.min(100, Math.max(0, Math.round(response.user.recommendationsCount / response.stats.recommendationsCount * 100)))}
-					% aller Empfehlungen
+					class="stat-desc">{response.stats.findsCount === 0 ? 0 : Math.min(100, Math.max(0, Math.round(response.user.findsCount / response.stats.findsCount * 100)))}
+					% aller Funde
 				</div>
 			</div>
 			<div class="stat">

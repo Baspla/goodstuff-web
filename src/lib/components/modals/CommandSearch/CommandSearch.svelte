@@ -5,11 +5,11 @@
 	import { getPlausibleProps, plausible } from "$lib/scripts/plausible";
 
 	let searchterm = $state("");
-	let recommendationEntries: { title: string; url: string }[] = $state([]);
+	let findEntries: { title: string; url: string }[] = $state([]);
 	let reviewEntries: { title: string; url: string }[] = $state([]);
 	let tagEntries: { title: string; url: string }[] = $state([]);
 	let userEntries: { title: string; url: string }[] = $state([]);
-	let moreRecommendations: boolean = $state(false);
+	let moreFinds: boolean = $state(false);
 	let moreReviews: boolean = $state(false);
 	let moreTags: boolean = $state(false);
 	let moreUsers: boolean = $state(false);
@@ -31,14 +31,14 @@
 		if (showModal) {
 			if (searchterm.length > 0) {
 				fetchApi(`search`, { searchterm, limit: "" + limit }).then((response) => {
-					let newRecommendationEntries = [];
+					let newFindEntries = [];
 					let newReviewEntries = [];
 					let newTagEntries = [];
 					let newUserEntries = [];
-					for (let recommendation of response.recommendations) {
-						newRecommendationEntries.push({
-							title: recommendation.title,
-							url: `/recommendation?id=${recommendation.id}`
+					for (let find of response.finds) {
+						newFindEntries.push({
+							title: find.title,
+							url: `/find?id=${find.id}`
 						});
 					}
 					for (let review of response.reviews) {
@@ -60,18 +60,18 @@
 						});
 					}
 
-					moreRecommendations = response.recommendations.length === limit;
+					moreFinds = response.finds.length === limit;
 					moreReviews = response.reviews.length === limit;
 					moreTags = response.tags.length === limit;
 					moreUsers = response.users.length === limit;
 
-					recommendationEntries = newRecommendationEntries;
+					findEntries = newFindEntries;
 					reviewEntries = newReviewEntries;
 					tagEntries = newTagEntries;
 					userEntries = newUserEntries;
 				});
 			} else {
-				recommendationEntries = [];
+				findEntries = [];
 				reviewEntries = [];
 				tagEntries = [];
 				userEntries = [];
@@ -137,9 +137,9 @@
 {#snippet results()}
 	<div class="mx-2 mt-4 overflow-y-auto">
 		<SearchCategory
-			category={{ title: "Empfehlungen", url: "/recommendations" }}
-			entries={recommendationEntries}
-			more={moreRecommendations? "/recommendations?search=" + searchterm : ""}
+			category={{ title: "Empfehlungen", url: "/finds" }}
+			entries={findEntries}
+			more={moreFinds? "/finds?search=" + searchterm : ""}
 			dialog={dialog}
 		/>
 		<SearchCategory

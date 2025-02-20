@@ -3,7 +3,7 @@
 	import { goto } from "$app/navigation";
 
 	if (isLoggedIn()) {
-		goto("/recommendations", { replaceState: true });
+		goto("/finds", { replaceState: true });
 	}
 </script>
 
@@ -17,7 +17,7 @@
 		</h2>
 	</div>
 	<div class="mb-[10vh] text-sm font-extrabold tracking-wide text-nowrap sm:text-xl md:text-3xl">
-		Teile deine Empfehlungen zu <span
+		Teile deine Bewertungen zu <span
 		class="relative inline-block rounded-lg bg-indigo-100 dark:bg-indigo-900/10 pt-2 pl-2 pr-4">
 			<span
 				class="selection:text-white inline-flex h-[calc(theme(fontSize.sm)*theme(lineHeight.tight))] flex-col overflow-hidden text-indigo-500 sm:h-[calc(theme(fontSize.xl)*theme(lineHeight.tight))] md:h-[calc(theme(fontSize.3xl)*theme(lineHeight.tight))]"

@@ -1,5 +1,5 @@
 <script lang="ts">
-	let { recommendation } = $props();
+	let { find } = $props();
 	let amountOfReviews = 0;
 </script>
 <div class="shrink-0">

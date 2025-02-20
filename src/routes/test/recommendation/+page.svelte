@@ -3,7 +3,7 @@
 	import { fetchApi } from "$lib/scripts/fetch";
 
 	let id = page.url.searchParams.get("id");
-	let promise: Promise<any> = $state(fetchApi(`recommendations/${id}`));
+	let promise: Promise<any> = $state(fetchApi(`finds/${id}`));
 </script>
 
 <h1 class="text-2xl">Post</h1>
@@ -12,10 +12,10 @@
 {:then response}
 	<p>Loaded</p>
 	<div class="ms-4 mb-4">
-		<h1>{response.recommendation.title}</h1>
-		<p>{response.recommendation.createdAt}</p>
-		<p>{response.recommendation.tldr}</p>
-		<a href={response.recommendation.url}>{response.recommendation.url}</a>
+		<h1>{response.find.title}</h1>
+		<p>{response.find.createdAt}</p>
+		<p>{response.find.tldr}</p>
+		<a href={response.find.url}>{response.find.url}</a>
 	</div>
 {:catch error}
 	<p>Error loading post</p>
